@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'appeROHvU.ui'
+## Form generated from reading UI file 'appNULTHD.ui'
 ##
 ## Created by: Qt User Interface Compiler version 5.14.1
 ##
@@ -22,7 +22,7 @@ class Ui_MainWindow(object):
             MainWindow.setObjectName(u"MainWindow")
         MainWindow.setWindowModality(Qt.NonModal)
         MainWindow.setEnabled(True)
-        MainWindow.resize(321, 229)
+        MainWindow.resize(409, 189)
         font = QFont()
         font.setPointSize(8)
         MainWindow.setFont(font)
@@ -161,27 +161,10 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_3.addWidget(self.line_3)
 
-        self.horizontalLayout_7 = QHBoxLayout()
-        self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
-        self.indicator = QRadioButton(self.widget)
-        self.indicator.setObjectName(u"indicator")
-        self.indicator.setLayoutDirection(Qt.LeftToRight)
-        self.indicator.setAutoFillBackground(False)
-
-        self.horizontalLayout_7.addWidget(self.indicator)
-
-        self.pushButton_reset = QPushButton(self.widget)
-        self.pushButton_reset.setObjectName(u"pushButton_reset")
-
-        self.horizontalLayout_7.addWidget(self.pushButton_reset)
-
-
-        self.verticalLayout_3.addLayout(self.horizontalLayout_7)
-
         MainWindow.setCentralWidget(self.widget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 321, 27))
+        self.menubar.setGeometry(QRect(0, 0, 409, 31))
         self.menuabout = QMenu(self.menubar)
         self.menuabout.setObjectName(u"menuabout")
         MainWindow.setMenuBar(self.menubar)
@@ -207,8 +190,6 @@ class Ui_MainWindow(object):
         self.label_4.setText(QCoreApplication.translate("MainWindow", u"keystroke :- ", None))
         self.label_keyStroke.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
         self.pushButton_keySet.setText(QCoreApplication.translate("MainWindow", u"Edit", None))
-        self.indicator.setText(QCoreApplication.translate("MainWindow", u"data indicators", None))
-        self.pushButton_reset.setText(QCoreApplication.translate("MainWindow", u"Reset", None))
         self.menuabout.setTitle(QCoreApplication.translate("MainWindow", u"about", None))
     # retranslateUi
 

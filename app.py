@@ -1,4 +1,5 @@
 import sys
+import os
 import socket
 import threading
 from multiprocessing import Process, freeze_support
@@ -9,6 +10,7 @@ import pyautogui
 from PySide2 import QtWidgets, QtGui
 from PySide2.QtWidgets import QLabel, QWidget
 from PySide2.QtCore import Qt, QTimer
+from PySide2.QtGui import QIcon
 from ui_app import Ui_MainWindow
 
 
@@ -25,7 +27,9 @@ event = threading.Event()
 
 HOST = "127.0.0.1"  # Standard loopback interface address (localhost)
 PORT = 65432  # Port to listen on (non-privileged ports are > 1023)
-
+#<--------- Define the location where you want to check for data.json
+file_location = os.path.expandvars('%APPDATA%\\TCP_Hkey\\')
+json_file_path = os.path.join(file_location, "data.json")
 # ------------------------ TCP connection Function -----------------------
 
 # <------------- handle incoming connections ------------>
@@ -110,7 +114,7 @@ def saveData():
     data['port'] = PORT
     data['receivedData'] = receivedData
     data['keyStrokes'] = keyStrokes
-    with open('data.json', 'w') as fp:
+    with open(json_file_path, 'w') as fp:
         json.dump(data, fp)
         print('-save data-')
 
@@ -211,14 +215,46 @@ if __name__ == "__main__":
     ui = Ui_MainWindow()
     keySetWin = ui_keySet(MainWindow)
 
-    # Remove the maximize button
+    # <--- Remove the maximize button
     MainWindow.setWindowFlags(MainWindow.windowFlags() & ~Qt.WindowMaximizeButtonHint)
+    # Create a QIcon object with the path to your icon file
+    icon = QIcon("TCP_Hkey.ico")
+    # Set the window icon
+    MainWindow.setWindowIcon(icon)
     # MainWindow.setFixedSize(310 , 200)
     ui.setupUi(MainWindow)
     MainWindow.show()
 
-    # <----- load loacal JSON all Data file --------
-    with open('data.json') as f:
+    # <--------- status bar sys out setting ------------
+    # Redirect sys.stdout to the custom StatusBarStream
+    status_bar_stream = StatusBarStream(ui.statusBar)
+    sys.stdout = status_bar_stream #<--- change to direction
+
+    # <----------- init listener thread ------
+    freeze_support()
+    listener_thread = Process(target=start_server, args=(HOST, PORT, keyStrokes, receivedData))
+
+    # <--------- load configtion data file --------------
+    # <----- Check if data.json exists at the specified location
+    if os.path.exists(json_file_path):
+        print("fount config file.")
+    else:
+        print("data.json file does not exist. Creating the file...")
+        # <----- Create the directory if it doesn't exist
+        if not os.path.exists(file_location):
+            os.makedirs(file_location)
+
+        # <----- Define the parameters you want to store in the JSON file
+        _data = {"ipAddress": "127.0.0.1", "port": 65434, "receivedData": "data", "keyStrokes": "a"}
+
+        # <----- Write the data to data.json
+        with open(json_file_path , "w") as json_file:
+            json.dump(_data, json_file, indent=4)
+    
+    print("| load data")
+
+     # <----- load loacal JSON all Data file --------
+    with open(json_file_path) as f:
         data = json.load(f)
         HOST = data['ipAddress']
         PORT = data['port']
@@ -240,16 +276,6 @@ if __name__ == "__main__":
     ui.lineEdit_Rdata.textChanged.connect(setResData)
     ui.pushButton_keySet.clicked.connect(setKeyStoke)
     ui.statusBar.showMessage("Ready")  # Initial status message
-
-    # <--------- status bar sys out setting ------------
-    # Redirect sys.stdout to the custom StatusBarStream
-    status_bar_stream = StatusBarStream(ui.statusBar)
-    sys.stdout = status_bar_stream #<--- change to direction
-
-    # <----------- init listener thread ------
-    freeze_support()
-    listener_thread = Process(target=start_server, args=(HOST, PORT, keyStrokes, receivedData))
-
 
     # <---- waiting for exit
     app.exec_()
