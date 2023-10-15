@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'appFvlEsN.ui'
+## Form generated from reading UI file 'appeROHvU.ui'
 ##
 ## Created by: Qt User Interface Compiler version 5.14.1
 ##
@@ -22,7 +22,10 @@ class Ui_MainWindow(object):
             MainWindow.setObjectName(u"MainWindow")
         MainWindow.setWindowModality(Qt.NonModal)
         MainWindow.setEnabled(True)
-        MainWindow.resize(291, 178)
+        MainWindow.resize(321, 229)
+        font = QFont()
+        font.setPointSize(8)
+        MainWindow.setFont(font)
         MainWindow.setTabShape(QTabWidget.Rounded)
         self.widget = QWidget(MainWindow)
         self.widget.setObjectName(u"widget")
@@ -42,10 +45,11 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_2.addWidget(self.label_2)
 
-        self.lineEdit_2 = QLineEdit(self.widget)
-        self.lineEdit_2.setObjectName(u"lineEdit_2")
+        self.lineEdit_ip = QLineEdit(self.widget)
+        self.lineEdit_ip.setObjectName(u"lineEdit_ip")
+        self.lineEdit_ip.setAlignment(Qt.AlignCenter)
 
-        self.horizontalLayout_2.addWidget(self.lineEdit_2)
+        self.horizontalLayout_2.addWidget(self.lineEdit_ip)
 
 
         self.verticalLayout.addLayout(self.horizontalLayout_2)
@@ -61,10 +65,11 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout.addWidget(self.label)
 
-        self.lineEdit = QLineEdit(self.widget)
-        self.lineEdit.setObjectName(u"lineEdit")
+        self.lineEdit_port = QLineEdit(self.widget)
+        self.lineEdit_port.setObjectName(u"lineEdit_port")
+        self.lineEdit_port.setAlignment(Qt.AlignCenter)
 
-        self.horizontalLayout.addWidget(self.lineEdit)
+        self.horizontalLayout.addWidget(self.lineEdit_port)
 
 
         self.verticalLayout.addLayout(self.horizontalLayout)
@@ -82,17 +87,19 @@ class Ui_MainWindow(object):
         self.verticalLayout_2 = QVBoxLayout()
         self.verticalLayout_2.setSpacing(4)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
-        self.pushButton_2 = QPushButton(self.widget)
-        self.pushButton_2.setObjectName(u"pushButton_2")
-        self.pushButton_2.setMinimumSize(QSize(60, 30))
+        self.pushButton_connect = QPushButton(self.widget)
+        self.pushButton_connect.setObjectName(u"pushButton_connect")
+        self.pushButton_connect.setMinimumSize(QSize(60, 30))
+        self.pushButton_connect.setCheckable(True)
 
-        self.verticalLayout_2.addWidget(self.pushButton_2)
+        self.verticalLayout_2.addWidget(self.pushButton_connect)
 
-        self.pushButton = QPushButton(self.widget)
-        self.pushButton.setObjectName(u"pushButton")
-        self.pushButton.setMinimumSize(QSize(60, 30))
+        self.pushButton_DisCon = QPushButton(self.widget)
+        self.pushButton_DisCon.setObjectName(u"pushButton_DisCon")
+        self.pushButton_DisCon.setMinimumSize(QSize(60, 30))
+        self.pushButton_DisCon.setCheckable(True)
 
-        self.verticalLayout_2.addWidget(self.pushButton)
+        self.verticalLayout_2.addWidget(self.pushButton_DisCon)
 
 
         self.horizontalLayout_3.addLayout(self.verticalLayout_2)
@@ -115,12 +122,12 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_4.addWidget(self.label_3)
 
-        self.lineEdit_3 = QLineEdit(self.widget)
-        self.lineEdit_3.setObjectName(u"lineEdit_3")
-        self.lineEdit_3.setMaxLength(8)
-        self.lineEdit_3.setAlignment(Qt.AlignCenter)
+        self.lineEdit_Rdata = QLineEdit(self.widget)
+        self.lineEdit_Rdata.setObjectName(u"lineEdit_Rdata")
+        self.lineEdit_Rdata.setMaxLength(8)
+        self.lineEdit_Rdata.setAlignment(Qt.AlignCenter)
 
-        self.horizontalLayout_4.addWidget(self.lineEdit_3)
+        self.horizontalLayout_4.addWidget(self.lineEdit_Rdata)
 
         self.horizontalLayout_5 = QHBoxLayout()
         self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
@@ -129,17 +136,17 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_5.addWidget(self.label_4)
 
-        self.label_5 = QLabel(self.widget)
-        self.label_5.setObjectName(u"label_5")
+        self.label_keyStroke = QLabel(self.widget)
+        self.label_keyStroke.setObjectName(u"label_keyStroke")
 
-        self.horizontalLayout_5.addWidget(self.label_5)
+        self.horizontalLayout_5.addWidget(self.label_keyStroke)
 
-        self.pushButton_3 = QPushButton(self.widget)
-        self.pushButton_3.setObjectName(u"pushButton_3")
-        self.pushButton_3.setMinimumSize(QSize(30, 30))
-        self.pushButton_3.setMaximumSize(QSize(35, 35))
+        self.pushButton_keySet = QPushButton(self.widget)
+        self.pushButton_keySet.setObjectName(u"pushButton_keySet")
+        self.pushButton_keySet.setMinimumSize(QSize(45, 30))
+        self.pushButton_keySet.setMaximumSize(QSize(50, 35))
 
-        self.horizontalLayout_5.addWidget(self.pushButton_3)
+        self.horizontalLayout_5.addWidget(self.pushButton_keySet)
 
 
         self.horizontalLayout_4.addLayout(self.horizontalLayout_5)
@@ -156,17 +163,17 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_7 = QHBoxLayout()
         self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
-        self.radioButton = QRadioButton(self.widget)
-        self.radioButton.setObjectName(u"radioButton")
-        self.radioButton.setLayoutDirection(Qt.LeftToRight)
-        self.radioButton.setAutoFillBackground(False)
+        self.indicator = QRadioButton(self.widget)
+        self.indicator.setObjectName(u"indicator")
+        self.indicator.setLayoutDirection(Qt.LeftToRight)
+        self.indicator.setAutoFillBackground(False)
 
-        self.horizontalLayout_7.addWidget(self.radioButton)
+        self.horizontalLayout_7.addWidget(self.indicator)
 
-        self.pushButton_4 = QPushButton(self.widget)
-        self.pushButton_4.setObjectName(u"pushButton_4")
+        self.pushButton_reset = QPushButton(self.widget)
+        self.pushButton_reset.setObjectName(u"pushButton_reset")
 
-        self.horizontalLayout_7.addWidget(self.pushButton_4)
+        self.horizontalLayout_7.addWidget(self.pushButton_reset)
 
 
         self.verticalLayout_3.addLayout(self.horizontalLayout_7)
@@ -174,7 +181,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.widget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 291, 21))
+        self.menubar.setGeometry(QRect(0, 0, 321, 27))
         self.menuabout = QMenu(self.menubar)
         self.menuabout.setObjectName(u"menuabout")
         MainWindow.setMenuBar(self.menubar)
@@ -190,18 +197,18 @@ class Ui_MainWindow(object):
     # setupUi
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"TCP keystroke controller", None))
+        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"TCP key controller", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"IP Address", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"Port", None))
-        self.pushButton_2.setText(QCoreApplication.translate("MainWindow", u"Connect", None))
-        self.pushButton.setText(QCoreApplication.translate("MainWindow", u"Disconnect", None))
+        self.pushButton_connect.setText(QCoreApplication.translate("MainWindow", u"Connect", None))
+        self.pushButton_DisCon.setText(QCoreApplication.translate("MainWindow", u"Disconnect", None))
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"received data", None))
-        self.lineEdit_3.setText(QCoreApplication.translate("MainWindow", u"data", None))
-        self.label_4.setText(QCoreApplication.translate("MainWindow", u"keystrokes :- ", None))
-        self.label_5.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
-        self.pushButton_3.setText(QCoreApplication.translate("MainWindow", u"*", None))
-        self.radioButton.setText(QCoreApplication.translate("MainWindow", u"data indicators", None))
-        self.pushButton_4.setText(QCoreApplication.translate("MainWindow", u"Reset", None))
+        self.lineEdit_Rdata.setText(QCoreApplication.translate("MainWindow", u"data", None))
+        self.label_4.setText(QCoreApplication.translate("MainWindow", u"keystroke :- ", None))
+        self.label_keyStroke.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
+        self.pushButton_keySet.setText(QCoreApplication.translate("MainWindow", u"Edit", None))
+        self.indicator.setText(QCoreApplication.translate("MainWindow", u"data indicators", None))
+        self.pushButton_reset.setText(QCoreApplication.translate("MainWindow", u"Reset", None))
         self.menuabout.setTitle(QCoreApplication.translate("MainWindow", u"about", None))
     # retranslateUi
 

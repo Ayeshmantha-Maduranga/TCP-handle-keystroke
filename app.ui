@@ -12,12 +12,17 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>291</width>
-    <height>178</height>
+    <width>321</width>
+    <height>229</height>
    </rect>
   </property>
+  <property name="font">
+   <font>
+    <pointsize>8</pointsize>
+   </font>
+  </property>
   <property name="windowTitle">
-   <string>TCP keystroke controller</string>
+   <string>TCP key controller</string>
   </property>
   <property name="tabShape">
    <enum>QTabWidget::Rounded</enum>
@@ -56,7 +61,11 @@
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="lineEdit_2"/>
+           <widget class="QLineEdit" name="lineEdit_ip">
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -83,7 +92,11 @@
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="lineEdit"/>
+           <widget class="QLineEdit" name="lineEdit_port">
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -102,7 +115,7 @@
          <number>4</number>
         </property>
         <item>
-         <widget class="QPushButton" name="pushButton_2">
+         <widget class="QPushButton" name="pushButton_connect">
           <property name="minimumSize">
            <size>
             <width>60</width>
@@ -112,10 +125,13 @@
           <property name="text">
            <string>Connect</string>
           </property>
+          <property name="checkable">
+           <bool>true</bool>
+          </property>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton">
+         <widget class="QPushButton" name="pushButton_DisCon">
           <property name="minimumSize">
            <size>
             <width>60</width>
@@ -124,6 +140,9 @@
           </property>
           <property name="text">
            <string>Disconnect</string>
+          </property>
+          <property name="checkable">
+           <bool>true</bool>
           </property>
          </widget>
         </item>
@@ -151,7 +170,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="lineEdit_3">
+       <widget class="QLineEdit" name="lineEdit_Rdata">
         <property name="text">
          <string>data</string>
         </property>
@@ -168,33 +187,33 @@
         <item>
          <widget class="QLabel" name="label_4">
           <property name="text">
-           <string>keystrokes :- </string>
+           <string>keystroke :- </string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="label_5">
+         <widget class="QLabel" name="label_keyStroke">
           <property name="text">
            <string>TextLabel</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_3">
+         <widget class="QPushButton" name="pushButton_keySet">
           <property name="minimumSize">
            <size>
-            <width>30</width>
+            <width>45</width>
             <height>30</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>35</width>
+            <width>50</width>
             <height>35</height>
            </size>
           </property>
           <property name="text">
-           <string>*</string>
+           <string>Edit</string>
           </property>
          </widget>
         </item>
@@ -212,7 +231,7 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_7">
       <item>
-       <widget class="QRadioButton" name="radioButton">
+       <widget class="QRadioButton" name="indicator">
         <property name="layoutDirection">
          <enum>Qt::LeftToRight</enum>
         </property>
@@ -225,7 +244,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_4">
+       <widget class="QPushButton" name="pushButton_reset">
         <property name="text">
          <string>Reset</string>
         </property>
@@ -240,8 +259,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>291</width>
-     <height>21</height>
+     <width>321</width>
+     <height>27</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuabout">
