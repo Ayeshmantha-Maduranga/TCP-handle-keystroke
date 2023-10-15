@@ -4,6 +4,7 @@ import threading
 from multiprocessing import Process, freeze_support
 from io import TextIOBase
 import json  
+import pyautogui
 
 from PySide2 import QtWidgets, QtGui
 from PySide2.QtWidgets import QLabel, QWidget
@@ -14,7 +15,7 @@ from ui_app import Ui_MainWindow
 # ============================== VAR ==================================
 data = {}
 receivedData = "data"
-keyStrokes = "a"
+keyStrokes = "space"
 
 server = None
 client_socket = None
@@ -28,13 +29,21 @@ PORT = 65432  # Port to listen on (non-privileged ports are > 1023)
 # ------------------------ TCP connection Function -----------------------
 
 # <------------- handle incoming connections ------------>
-def handle_client(client_socket, address):
+def handle_client(client_socket, address, _keyStrokes, _receivedData):
     global runListeningThread
     try:
         while runListeningThread:
             data = client_socket.recv(1024)
             if not data:
                 break
+
+            # <------ run keyboard control
+            if(data.decode() == _receivedData):
+                print(f"key name : {_keyStrokes}")
+                pyautogui.press(_keyStrokes)
+                print('keyboard press key success')
+
+            #<----- print all incoming msg
             print(f"Received data from {address[0]}:{address[1]}: {data.decode()}")
 
             # check for stop
@@ -47,20 +56,20 @@ def handle_client(client_socket, address):
         client_socket.close()
 
 # <----------- Create a TCP server socket ------------->
-def start_server():
+def start_server(_HOST, _PORT, _keyStrokes, _receivedData):
     global server
     try:
         if server is None:
             server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            server.bind((HOST, PORT))
+            server.bind((_HOST, _PORT))
             server.listen()
-            print(f"[*] Listening on {HOST}:{PORT}")
+            print(f"[*] Listening on {_HOST}:{_PORT}")
 
         while runListeningThread:
             client_socket, client_address = server.accept()
             print(f"[*] Accepted connection from {client_address[0]}:{client_address[1]}")
 
-            client_thread = threading.Thread(target=handle_client, args=(client_socket, client_address))
+            client_thread = threading.Thread(target=handle_client, args=(client_socket, client_address, _keyStrokes, _receivedData))
             client_thread.start()
 
             # check for stop
@@ -91,7 +100,7 @@ def stop_server():
 
     if listener_thread.is_alive():
         listener_thread.terminate()
-        print("terminate TCP server")
+        print("TCP server disconnected!")
 
 
 # ----------------------- ui funtions -------------------------------
@@ -103,6 +112,7 @@ def saveData():
     data['keyStrokes'] = keyStrokes
     with open('data.json', 'w') as fp:
         json.dump(data, fp)
+        print('-save data-')
 
 def TCP_Connect():
     ui.lineEdit_ip.setEnabled(False)
@@ -112,7 +122,8 @@ def TCP_Connect():
     global listener_thread
 
     if not listener_thread.is_alive():
-        listener_thread = Process(target=start_server)
+        listener_thread = Process(target=start_server, args=(HOST, PORT, keyStrokes, receivedData))
+        print("TCP server connection sucsses!")
         listener_thread.start()
     else:
         listener_thread.terminate()
@@ -183,10 +194,9 @@ class ui_keySet(QtWidgets.QDialog):
     
     def keyPressEvent(self, event):
         global keyStrokes
-        keyStrokes = event.key()
-        key_name = QtGui.QKeySequence(keyStrokes).toString()
-        print(f"Key pressed: {key_name}")
-        ui.label_keyStroke.setText(key_name)
+        keyStrokes = QtGui.QKeySequence(event.key()).toString().lower()
+        print(f"Key pressed: {keyStrokes}")
+        ui.label_keyStroke.setText(keyStrokes)
         saveData()
         self.close()
 
@@ -220,8 +230,7 @@ if __name__ == "__main__":
     ui.lineEdit_ip.setText(HOST)
     ui.lineEdit_port.setText(str(PORT))
     ui.lineEdit_Rdata.setText(receivedData)
-    key_name = QtGui.QKeySequence(keyStrokes).toString()
-    ui.label_keyStroke.setText(key_name)
+    ui.label_keyStroke.setText(keyStrokes)
 
     # <--------- run app funtons ------------
     ui.pushButton_connect.clicked.connect(TCP_Connect) 
@@ -232,13 +241,14 @@ if __name__ == "__main__":
     ui.pushButton_keySet.clicked.connect(setKeyStoke)
     ui.statusBar.showMessage("Ready")  # Initial status message
 
+    # <--------- status bar sys out setting ------------
     # Redirect sys.stdout to the custom StatusBarStream
     status_bar_stream = StatusBarStream(ui.statusBar)
-    sys.stdout = status_bar_stream
+    sys.stdout = status_bar_stream #<--- change to direction
 
     # <----------- init listener thread ------
     freeze_support()
-    listener_thread = Process(target=start_server)
+    listener_thread = Process(target=start_server, args=(HOST, PORT, keyStrokes, receivedData))
 
 
     # <---- waiting for exit
