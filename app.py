@@ -2,11 +2,12 @@ import sys
 import socket
 import threading
 from multiprocessing import Process, freeze_support
+from io import TextIOBase
 import json  
 
 from PySide2 import QtWidgets, QtGui
 from PySide2.QtWidgets import QLabel, QWidget
-from PySide2.QtCore import Qt
+from PySide2.QtCore import Qt, QTimer
 from ui_app import Ui_MainWindow
 
 
@@ -141,7 +142,31 @@ def setResData():
     receivedData = ui.lineEdit_Rdata.text()
     saveData()
 
-     
+# <------- end ui funtions 
+
+
+# ================= STATUS BAR UPDATE CLASS =======================
+class StatusBarStream(TextIOBase):
+    def __init__(self, status_bar):
+        super(StatusBarStream, self).__init__()
+        self.status_bar = status_bar
+        self.current_message = ""
+        self.message_timer = QTimer()
+        self.message_timer.timeout.connect(self.clear_message)
+
+    def write(self, text):
+        self.current_message += str(text)
+        self.status_bar.showMessage(self.current_message)
+        self.message_timer.start(1000)  # Display the message for 3 seconds
+
+    def clear_message(self):
+        self.current_message = ""
+        self.message_timer.stop()
+
+    def flush(self):
+        pass
+
+# ================== CUSTOM UI CLASS ==============================
 class ui_keySet(QtWidgets.QDialog):
     
     def __init__(self, parent=None):
@@ -205,14 +230,16 @@ if __name__ == "__main__":
     ui.lineEdit_port.textChanged.connect(setPort)
     ui.lineEdit_Rdata.textChanged.connect(setResData)
     ui.pushButton_keySet.clicked.connect(setKeyStoke)
+    ui.statusBar.showMessage("Ready")  # Initial status message
 
+    # Redirect sys.stdout to the custom StatusBarStream
+    status_bar_stream = StatusBarStream(ui.statusBar)
+    sys.stdout = status_bar_stream
 
     # <----------- init listener thread ------
     freeze_support()
     listener_thread = Process(target=start_server)
-    # listener_thread.daemon = True
 
-    
 
     # <---- waiting for exit
     app.exec_()
