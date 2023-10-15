@@ -2,11 +2,9 @@ import sys
 import socket
 import threading
 from multiprocessing import Process, freeze_support
-import time
 import json  
 
 from PySide2 import QtWidgets, QtGui
-import PySide2.QtGui
 from PySide2.QtWidgets import QLabel, QWidget
 from PySide2.QtCore import Qt
 from ui_app import Ui_MainWindow
@@ -209,6 +207,7 @@ if __name__ == "__main__":
     ui.pushButton_keySet.clicked.connect(setKeyStoke)
 
 
+    # <----------- init listener thread ------
     freeze_support()
     listener_thread = Process(target=start_server)
     # listener_thread.daemon = True
