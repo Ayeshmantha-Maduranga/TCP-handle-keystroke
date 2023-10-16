@@ -269,7 +269,7 @@
        <enum>Qt::ElideMiddle</enum>
       </property>
       <property name="rowCount">
-       <number>6</number>
+       <number>1</number>
       </property>
       <property name="columnCount">
        <number>2</number>
@@ -298,11 +298,6 @@
       <attribute name="verticalHeaderDefaultSectionSize">
        <number>25</number>
       </attribute>
-      <row/>
-      <row/>
-      <row/>
-      <row/>
-      <row/>
       <row/>
       <column>
        <property name="text">

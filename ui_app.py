@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'appJWChbZ.ui'
+## Form generated from reading UI file 'appHFLGPa.ui'
 ##
 ## Created by: Qt User Interface Compiler version 5.14.1
 ##
@@ -179,15 +179,15 @@ class Ui_MainWindow(object):
         self.Dtable.setHorizontalHeaderItem(0, __qtablewidgetitem)
         __qtablewidgetitem1 = QTableWidgetItem()
         self.Dtable.setHorizontalHeaderItem(1, __qtablewidgetitem1)
-        if (self.Dtable.rowCount() < 6):
-            self.Dtable.setRowCount(6)
+        if (self.Dtable.rowCount() < 1):
+            self.Dtable.setRowCount(1)
         self.Dtable.setObjectName(u"Dtable")
         self.Dtable.setMinimumSize(QSize(100, 100))
         self.Dtable.setContextMenuPolicy(Qt.DefaultContextMenu)
         self.Dtable.setHorizontalScrollBarPolicy(Qt.ScrollBarAsNeeded)
         self.Dtable.setSizeAdjustPolicy(QAbstractScrollArea.AdjustToContents)
         self.Dtable.setTextElideMode(Qt.ElideMiddle)
-        self.Dtable.setRowCount(6)
+        self.Dtable.setRowCount(1)
         self.Dtable.setColumnCount(2)
         self.Dtable.horizontalHeader().setVisible(True)
         self.Dtable.horizontalHeader().setCascadingSectionResizes(True)

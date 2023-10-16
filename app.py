@@ -8,7 +8,7 @@ import json
 import pyautogui
 
 from PySide2 import QtWidgets, QtGui
-from PySide2.QtWidgets import QLabel, QWidget
+from PySide2.QtWidgets import QLabel, QWidget, QTableWidgetItem
 from PySide2.QtCore import Qt, QTimer
 from PySide2.QtGui import QIcon
 from ui_app import Ui_MainWindow
@@ -16,6 +16,8 @@ from ui_app import Ui_MainWindow
 
 # ============================== VAR ==================================
 data = {}
+dArray = [['data','d']]
+
 receivedData = "data"
 keyStrokes = "space"
 
@@ -33,7 +35,7 @@ json_file_path = os.path.join(file_location, "data.json")
 # ------------------------ TCP connection Function -----------------------
 
 # <------------- handle incoming connections ------------>
-def handle_client(client_socket, address, _keyStrokes, _receivedData):
+def handle_client(client_socket, address, _dArray):
     global runListeningThread
     try:
         while runListeningThread:
@@ -42,10 +44,11 @@ def handle_client(client_socket, address, _keyStrokes, _receivedData):
                 break
 
             # <------ run keyboard control
-            if(data.decode() == _receivedData):
-                print(f"key name : {_keyStrokes}")
-                pyautogui.press(_keyStrokes)
-                print('keyboard press key success')
+            for d in _dArray:
+                if(data.decode() == d[0]):
+                    print(f"key name : {d[1]}")
+                    pyautogui.press(d[1])
+                    print('keyboard press key success')
 
             #<----- print all incoming msg
             print(f"Received data from {address[0]}:{address[1]}: {data.decode()}")
@@ -60,7 +63,7 @@ def handle_client(client_socket, address, _keyStrokes, _receivedData):
         client_socket.close()
 
 # <----------- Create a TCP server socket ------------->
-def start_server(_HOST, _PORT, _keyStrokes, _receivedData):
+def start_server(_HOST, _PORT, _dArray):
     global server
     try:
         if server is None:
@@ -73,7 +76,7 @@ def start_server(_HOST, _PORT, _keyStrokes, _receivedData):
             client_socket, client_address = server.accept()
             print(f"[*] Accepted connection from {client_address[0]}:{client_address[1]}")
 
-            client_thread = threading.Thread(target=handle_client, args=(client_socket, client_address, _keyStrokes, _receivedData))
+            client_thread = threading.Thread(target=handle_client, args=(client_socket, client_address, _dArray))
             client_thread.start()
 
             # check for stop
@@ -85,7 +88,6 @@ def start_server(_HOST, _PORT, _keyStrokes, _receivedData):
     finally:
         if server:
             server.close()
-
 
 # ----------------- stop TCP connection function ----------------------
 # Define a function to stop the server and clean up resources
@@ -106,14 +108,12 @@ def stop_server():
         listener_thread.terminate()
         print("TCP server disconnected!")
 
-
 # ----------------------- ui funtions -------------------------------
 def saveData():
     global data
     data['ipAddress'] = HOST
     data['port'] = PORT
-    data['receivedData'] = receivedData
-    data['keyStrokes'] = keyStrokes
+    data['dArray'] = dArray
     with open(json_file_path, 'w') as fp:
         json.dump(data, fp)
         print('-save data-')
@@ -126,7 +126,7 @@ def TCP_Connect():
     global listener_thread
 
     if not listener_thread.is_alive():
-        listener_thread = Process(target=start_server, args=(HOST, PORT, keyStrokes, receivedData))
+        listener_thread = Process(target=start_server, args=(HOST, PORT, dArray))
         print("TCP server connection sucsses!")
         listener_thread.start()
     else:
@@ -153,10 +153,43 @@ def setPort():
     saveData()
 
 def setResData():
-    global receivedData
-    receivedData = ui.lineEdit_Rdata.text()
+    global receivedData,dArray
+    raw = ui.Dtable.currentRow()
+    dArray[raw][0] = ui.lineEdit_Rdata.text()
+    loadTable()
     saveData()
+           
+# <---------- data Table futions ------------
+def loadTable():
+    global dArray
+    arrayLen =len(dArray)
+    if arrayLen > ui.Dtable.rowCount():
+        ui.Dtable.setRowCount(arrayLen)
+    for row in range(arrayLen):
+        for col in range(2):
+            ui.Dtable.setItem(row, col, QTableWidgetItem(dArray[row][col]))
 
+def loadRawVal():
+    #<----res msg 
+    item = ui.Dtable.item(ui.Dtable.currentRow(),0)
+    if item is not None:
+        ui.lineEdit_Rdata.setText(item.text())
+    else:
+        ui.lineEdit_Rdata.setText('')
+    # <--- key stroke
+    item = ui.Dtable.item(ui.Dtable.currentRow(),1)
+    if item is not None:
+        ui.label_keyStroke.setText(item.text())
+    else:
+        ui.label_keyStroke.setText('')
+
+def addRawVal():
+    dArray.append(['data','d'])
+    ui.Dtable.insertRow(ui.Dtable.currentRow() + 1) 
+    
+def removeVal():
+    dArray.pop(ui.Dtable.currentRow())
+    ui.Dtable.removeRow(ui.Dtable.currentRow())   
 # <------- end ui funtions 
 
 
@@ -201,6 +234,9 @@ class ui_keySet(QtWidgets.QDialog):
         keyStrokes = QtGui.QKeySequence(event.key()).toString().lower()
         print(f"Key pressed: {keyStrokes}")
         ui.label_keyStroke.setText(keyStrokes)
+        raw=ui.Dtable.currentRow()
+        dArray[raw][1]= keyStrokes
+        loadTable()
         saveData()
         self.close()
 
@@ -232,7 +268,7 @@ if __name__ == "__main__":
 
     # <----------- init listener thread ------
     freeze_support()
-    listener_thread = Process(target=start_server, args=(HOST, PORT, keyStrokes, receivedData))
+    listener_thread = Process(target=start_server, args=(HOST, PORT, dArray))
 
     # <--------- load configtion data file --------------
     # <----- Check if data.json exists at the specified location
@@ -245,8 +281,7 @@ if __name__ == "__main__":
             os.makedirs(file_location)
 
         # <----- Define the parameters you want to store in the JSON file
-        _data = {"ipAddress": "127.0.0.1", "port": 65434, "receivedData": "data", "keyStrokes": "a"}
-
+        _data = {"ipAddress": "127.0.0.1","port": 65434,"dArray": [['data','d']]}
         # <----- Write the data to data.json
         with open(json_file_path , "w") as json_file:
             json.dump(_data, json_file, indent=4)
@@ -258,16 +293,21 @@ if __name__ == "__main__":
         data = json.load(f)
         HOST = data['ipAddress']
         PORT = data['port']
-        receivedData = data['receivedData']
-        keyStrokes = data['keyStrokes']
-
-
+        dArray = data['dArray']
+        
+    # <----- load loacal JSON all Data file --------
+    with open(json_file_path) as f:
+        data = json.load(f)
+        HOST = data['ipAddress']
+        PORT = data['port']
+        
     # <--------- load ui data ---------------
     ui.lineEdit_ip.setText(HOST)
     ui.lineEdit_port.setText(str(PORT))
     ui.lineEdit_Rdata.setText(receivedData)
     ui.label_keyStroke.setText(keyStrokes)
-    ui.Dtable.setDisabled(True)
+    loadTable()
+    # ui.Dtable.setDisabled(True)
 
     # <--------- run app funtons ------------
     ui.pushButton_connect.clicked.connect(TCP_Connect) 
@@ -276,6 +316,12 @@ if __name__ == "__main__":
     ui.lineEdit_port.textChanged.connect(setPort)
     ui.lineEdit_Rdata.textChanged.connect(setResData)
     ui.pushButton_keySet.clicked.connect(setKeyStoke)
+    ui.BtnAddRaw.clicked.connect(addRawVal)
+    ui.btn_RemoveRaw.clicked.connect(removeVal)
+    
+    selection = ui.Dtable.selectionModel()
+    selection.selectionChanged.connect(loadRawVal)
+    
     ui.statusBar.showMessage("Ready")  # Initial status message
 
     # <---- waiting for exit
