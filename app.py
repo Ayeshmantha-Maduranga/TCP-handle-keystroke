@@ -267,6 +267,7 @@ if __name__ == "__main__":
     ui.lineEdit_port.setText(str(PORT))
     ui.lineEdit_Rdata.setText(receivedData)
     ui.label_keyStroke.setText(keyStrokes)
+    ui.Dtable.setDisabled(True)
 
     # <--------- run app funtons ------------
     ui.pushButton_connect.clicked.connect(TCP_Connect) 

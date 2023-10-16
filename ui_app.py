@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'appNULTHD.ui'
+## Form generated from reading UI file 'appJWChbZ.ui'
 ##
 ## Created by: Qt User Interface Compiler version 5.14.1
 ##
@@ -22,7 +22,7 @@ class Ui_MainWindow(object):
             MainWindow.setObjectName(u"MainWindow")
         MainWindow.setWindowModality(Qt.NonModal)
         MainWindow.setEnabled(True)
-        MainWindow.resize(409, 189)
+        MainWindow.resize(457, 281)
         font = QFont()
         font.setPointSize(8)
         MainWindow.setFont(font)
@@ -143,10 +143,21 @@ class Ui_MainWindow(object):
 
         self.pushButton_keySet = QPushButton(self.widget)
         self.pushButton_keySet.setObjectName(u"pushButton_keySet")
-        self.pushButton_keySet.setMinimumSize(QSize(45, 30))
-        self.pushButton_keySet.setMaximumSize(QSize(50, 35))
+        self.pushButton_keySet.setMaximumSize(QSize(60, 16777215))
 
         self.horizontalLayout_5.addWidget(self.pushButton_keySet)
+
+        self.BtnAddRaw = QPushButton(self.widget)
+        self.BtnAddRaw.setObjectName(u"BtnAddRaw")
+        self.BtnAddRaw.setMaximumSize(QSize(40, 16777215))
+
+        self.horizontalLayout_5.addWidget(self.BtnAddRaw)
+
+        self.btn_RemoveRaw = QPushButton(self.widget)
+        self.btn_RemoveRaw.setObjectName(u"btn_RemoveRaw")
+        self.btn_RemoveRaw.setMaximumSize(QSize(40, 16777215))
+
+        self.horizontalLayout_5.addWidget(self.btn_RemoveRaw)
 
 
         self.horizontalLayout_4.addLayout(self.horizontalLayout_5)
@@ -161,10 +172,38 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_3.addWidget(self.line_3)
 
+        self.Dtable = QTableWidget(self.widget)
+        if (self.Dtable.columnCount() < 2):
+            self.Dtable.setColumnCount(2)
+        __qtablewidgetitem = QTableWidgetItem()
+        self.Dtable.setHorizontalHeaderItem(0, __qtablewidgetitem)
+        __qtablewidgetitem1 = QTableWidgetItem()
+        self.Dtable.setHorizontalHeaderItem(1, __qtablewidgetitem1)
+        if (self.Dtable.rowCount() < 6):
+            self.Dtable.setRowCount(6)
+        self.Dtable.setObjectName(u"Dtable")
+        self.Dtable.setMinimumSize(QSize(100, 100))
+        self.Dtable.setContextMenuPolicy(Qt.DefaultContextMenu)
+        self.Dtable.setHorizontalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+        self.Dtable.setSizeAdjustPolicy(QAbstractScrollArea.AdjustToContents)
+        self.Dtable.setTextElideMode(Qt.ElideMiddle)
+        self.Dtable.setRowCount(6)
+        self.Dtable.setColumnCount(2)
+        self.Dtable.horizontalHeader().setVisible(True)
+        self.Dtable.horizontalHeader().setCascadingSectionResizes(True)
+        self.Dtable.horizontalHeader().setDefaultSectionSize(161)
+        self.Dtable.horizontalHeader().setHighlightSections(False)
+        self.Dtable.horizontalHeader().setProperty("showSortIndicator", False)
+        self.Dtable.horizontalHeader().setStretchLastSection(False)
+        self.Dtable.verticalHeader().setMinimumSectionSize(20)
+        self.Dtable.verticalHeader().setDefaultSectionSize(25)
+
+        self.verticalLayout_3.addWidget(self.Dtable)
+
         MainWindow.setCentralWidget(self.widget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 409, 31))
+        self.menubar.setGeometry(QRect(0, 0, 457, 26))
         self.menuabout = QMenu(self.menubar)
         self.menuabout.setObjectName(u"menuabout")
         MainWindow.setMenuBar(self.menubar)
@@ -185,11 +224,17 @@ class Ui_MainWindow(object):
         self.label.setText(QCoreApplication.translate("MainWindow", u"Port", None))
         self.pushButton_connect.setText(QCoreApplication.translate("MainWindow", u"Connect", None))
         self.pushButton_DisCon.setText(QCoreApplication.translate("MainWindow", u"Disconnect", None))
-        self.label_3.setText(QCoreApplication.translate("MainWindow", u"received data", None))
+        self.label_3.setText(QCoreApplication.translate("MainWindow", u"received msg", None))
         self.lineEdit_Rdata.setText(QCoreApplication.translate("MainWindow", u"data", None))
         self.label_4.setText(QCoreApplication.translate("MainWindow", u"keystroke :- ", None))
         self.label_keyStroke.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
         self.pushButton_keySet.setText(QCoreApplication.translate("MainWindow", u"Edit", None))
+        self.BtnAddRaw.setText(QCoreApplication.translate("MainWindow", u"+", None))
+        self.btn_RemoveRaw.setText(QCoreApplication.translate("MainWindow", u"-", None))
+        ___qtablewidgetitem = self.Dtable.horizontalHeaderItem(0)
+        ___qtablewidgetitem.setText(QCoreApplication.translate("MainWindow", u"received msg", None));
+        ___qtablewidgetitem1 = self.Dtable.horizontalHeaderItem(1)
+        ___qtablewidgetitem1.setText(QCoreApplication.translate("MainWindow", u"keyStroke", None));
         self.menuabout.setTitle(QCoreApplication.translate("MainWindow", u"about", None))
     # retranslateUi
 
